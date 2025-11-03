@@ -116,5 +116,52 @@ Tarefas futuras / melhorias
 Adicionar testes automatizados (unit/integration).
 Melhorar validação das rotas e mensagens de erro.
 Implementar paginação e filtros no extrato.
-Implementar roles/permissões e melhores políticas de segurança.
 Licença
+
+# no diretório do projeto (onde está docker-compose.yml)
+docker-compose up -d --build
+
+docker ps
+
+# a partir da raiz do projeto
+docker exec -i banco_skull mysql -uadmin -padmin123 banco_skull < sql/schema.sql
+
+
+cd backend
+npm install
+# modo desenvolvimento (com nodemon)
+npm run dev
+# ou iniciar diretamente
+npm start
+
+
+
+
+
+# na raiz do projeto (frontend)
+npm install
+npm start
+# por padrão: http://localhost:4200
+
+
+#regiostrar novo usuario
+curl -X POST http://localhost:3000/api/register \
+  -H "Content-Type: application/json" \
+  -d '{"nome":"Usuario Teste","email":"teste@email.com","senha":"123456"}'
+
+
+Usar token recebido do usuário:
+curl -H "Authorization: Bearer <TOKEN>" http://localhost:3000/api/usuario
+
+# abrir shel dentro do container: 
+docker exec -it banco_skull mysql -uadmin -padmin123 banco_skull
+# então usar comandos SQL, ex:
+SELECT id, nome, email, saldo, created_at FROM usuarios;
+
+curl -i -X OPTIONS http://localhost:3000/api/login \
+  -H "Origin: http://localhost:4200" \
+  -H "Access-Control-Request-Method: POST" -v
+
+  
+
+
