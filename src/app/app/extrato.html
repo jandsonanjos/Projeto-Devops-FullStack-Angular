@@ -1,0 +1,47 @@
+<div class="extrato-container">
+  <div class="extrato-header">
+    <h2>Extrato</h2>
+    <div class="filtros">
+      <select [(ngModel)]="filtroPeriodo" class="filtro-select">
+        <option value="7dias">Últimos 7 dias</option>
+        <option value="15dias">Últimos 15 dias</option>
+        <option value="30dias">Últimos 30 dias</option>
+        <option value="todos">Todo período</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="resumo-cards">
+    <div class="card entradas">
+      <h3>Entradas</h3>
+      <p class="valor">R$ {{ getValorTotal().entradas | number:'1.2-2' }}</p>
+    </div>
+    <div class="card saidas">
+      <h3>Saídas</h3>
+      <p class="valor">R$ {{ getValorTotal().saidas | number:'1.2-2' }}</p>
+    </div>
+    <div class="card saldo">
+      <h3>Saldo do Período</h3>
+      <p class="valor" [class.positivo]="getValorTotal().saldo >= 0" [class.negativo]="getValorTotal().saldo < 0">
+        R$ {{ getValorTotal().saldo | number:'1.2-2' }}
+      </p>
+    </div>
+  </div>
+
+  <div class="transacoes-lista">
+    <div class="transacao-item" *ngFor="let transacao of filtrarTransacoes()">
+      <div class="transacao-info">
+        <div class="transacao-principal">
+          <span class="descricao">{{ transacao.descricao }}</span>
+          <span class="valor" [class.entrada]="transacao.tipo === 'entrada'" [class.saida]="transacao.tipo === 'saida'">
+            {{ transacao.tipo === 'entrada' ? '+' : '-' }} R$ {{ transacao.valor | number:'1.2-2' }}
+          </span>
+        </div>
+        <div class="transacao-detalhes">
+          <span class="data">{{ transacao.data | date:'dd/MM/yyyy' }}</span>
+          <span class="categoria">{{ transacao.categoria }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

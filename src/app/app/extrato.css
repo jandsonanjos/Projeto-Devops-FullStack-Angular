@@ -1,0 +1,153 @@
+.extrato-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.extrato-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.extrato-header h2 {
+  margin: 0;
+  color: #333;
+}
+
+.filtros {
+  display: flex;
+  gap: 1rem;
+}
+
+.filtro-select {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  font-size: 0.9rem;
+}
+
+.resumo-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.card h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1rem;
+  color: #666;
+}
+
+.card .valor {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.card.entradas .valor {
+  color: #2e7d32;
+}
+
+.card.saidas .valor {
+  color: #c62828;
+}
+
+.card.saldo .valor {
+  font-size: 1.75rem;
+}
+
+.valor.positivo {
+  color: #2e7d32;
+}
+
+.valor.negativo {
+  color: #c62828;
+}
+
+.transacoes-lista {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.transacao-item {
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.transacao-item:last-child {
+  border-bottom: none;
+}
+
+.transacao-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.transacao-principal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.descricao {
+  font-weight: 500;
+  color: #333;
+}
+
+.valor {
+  font-weight: 600;
+}
+
+.valor.entrada {
+  color: #2e7d32;
+}
+
+.valor.saida {
+  color: #c62828;
+}
+
+.transacao-detalhes {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+@media (max-width: 600px) {
+  .extrato-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .filtros {
+    flex-wrap: wrap;
+  }
+
+  .filtro-select {
+    flex: 1;
+    min-width: 150px;
+  }
+
+  .card .valor {
+    font-size: 1.25rem;
+  }
+
+  .card.saldo .valor {
+    font-size: 1.5rem;
+  }
+}

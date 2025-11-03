@@ -1,0 +1,73 @@
+<div class="dashboard-container">
+  <!-- Cards de Resumo -->
+  <div class="resumo-cards">
+    <div class="card saldo">
+      <h3>Saldo Atual</h3>
+      <div class="valor">R$ {{ saldoAtual | number:'1.2-2' }}</div>
+      <a routerLink="/saldo" class="ver-mais">Ver detalhes →</a>
+    </div>
+    
+    <div class="card receita">
+      <h3>Receita Mensal</h3>
+      <div class="valor">R$ {{ receitaMensal | number:'1.2-2' }}</div>
+      <div class="comparacao">+12% que mês anterior</div>
+    </div>
+    
+    <div class="card despesa">
+      <h3>Despesa Mensal</h3>
+      <div class="valor">R$ {{ despesaMensal | number:'1.2-2' }}</div>
+      <div class="comparacao">-5% que mês anterior</div>
+    </div>
+  </div>
+
+  <!-- Seção de Gráficos -->
+  <div class="graficos-container">
+    <div class="grafico-card">
+      <canvas #gastosPorCategoriaChart></canvas>
+    </div>
+    
+    <div class="grafico-card">
+      <canvas #fluxoCaixaChart></canvas>
+    </div>
+  </div>
+
+  <!-- Transações Recentes -->
+  <div class="transacoes-recentes">
+    <div class="header">
+      <h3>Transações Recentes</h3>
+      <a routerLink="/extrato" class="ver-todas">Ver todas</a>
+    </div>
+    
+    <div class="transacoes-lista">
+      <div class="transacao-item" *ngFor="let transacao of transacoesRecentes">
+        <div class="transacao-info">
+          <span class="descricao">{{ transacao.descricao }}</span>
+          <span class="data">{{ transacao.data | date:'dd/MM/yyyy' }}</span>
+        </div>
+        <span class="valor" [class.entrada]="transacao.tipo === 'entrada'" [class.saida]="transacao.tipo === 'saida'">
+          {{ transacao.tipo === 'entrada' ? '+' : '-' }} R$ {{ transacao.valor | number:'1.2-2' }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ações Rápidas -->
+  <div class="acoes-rapidas">
+    <button routerLink="/extrato" class="acao">
+      <i class="fas fa-list"></i>
+      Extrato
+    </button>
+    <button routerLink="/saldo" class="acao">
+      <i class="fas fa-wallet"></i>
+      Saldo
+    </button>
+    <button class="acao pix">
+      <i class="fas fa-qrcode"></i>
+      PIX
+    </button>
+    <button class="acao transferencia">
+      <i class="fas fa-exchange-alt"></i>
+      Transferência
+    </button>
+  </div>
+</div>

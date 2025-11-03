@@ -1,0 +1,180 @@
+<div class="saldo-container">
+  <div class="saldo-card">
+    <h2>Seu Saldo</h2>
+    <div class="saldo-valor">
+      <span class="moeda">R$</span>
+      <span class="valor">{{ saldo | number:'1.2-2' }}</span>
+    </div>
+    <div class="saldo-info">
+      <p>Última atualização: {{ ultimaAtualizacao | date:'dd/MM/yyyy HH:mm' }}</p>
+    </div>
+  </div>
+
+  <div class="limites-card">
+    <h3>Limites</h3>
+    <div class="limite-item">
+      <span>Limite de PIX</span>
+      <span>R$ {{ limitePix | number:'1.2-2' }}</span>
+    </div>
+    <div class="limite-item">
+      <span>Limite de Transferência</span>
+      <span>R$ {{ limiteTransferencia | number:'1.2-2' }}</span>
+    </div>
+  </div>
+
+  <div class="acoes">
+    <button class="acao-btn pix" (click)="gerarPix()">
+      <i class="fas fa-qrcode"></i>
+      PIX
+    </button>
+    <button class="acao-btn transferencia" (click)="abrirModalTransferencia()">
+      <i class="fas fa-exchange-alt"></i>
+      Transferência
+    </button>
+    <button class="acao-btn extrato" (click)="navegarParaExtrato()">
+      <i class="fas fa-list"></i>
+      Ver Extrato
+    </button>
+  </div>
+
+  <!-- Modal de Transferência -->
+  <div class="modal" *ngIf="showTransferenciaModal">
+    <div class="modal-content">
+      <h2>Realizar Transferência</h2>
+      
+      <form class="transferencia-form" (ngSubmit)="realizarTransferencia()">
+        <div class="form-group">
+          <label for="valorTransferencia">Valor da Transferência:</label>
+          <input 
+            type="number" 
+            id="valorTransferencia" 
+            [(ngModel)]="valorTransferencia" 
+            name="valorTransferencia"
+            [max]="limiteTransferencia"
+            placeholder="Digite o valor"
+            required>
+        </div>
+
+        <div class="form-group">
+          <label for="banco">Banco:</label>
+          <input 
+            type="text" 
+            id="banco" 
+            [(ngModel)]="contaDestino.banco" 
+            name="banco"
+            placeholder="Nome do banco"
+            required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="agencia">Agência:</label>
+            <input 
+              type="text" 
+              id="agencia" 
+              [(ngModel)]="contaDestino.agencia" 
+              name="agencia"
+              placeholder="Número da agência"
+              required>
+          </div>
+
+          <div class="form-group">
+            <label for="conta">Conta:</label>
+            <input 
+              type="text" 
+              id="conta" 
+              [(ngModel)]="contaDestino.conta" 
+              name="conta"
+              placeholder="Número da conta"
+              required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Tipo de Conta:</label>
+          <div class="radio-group">
+            <label>
+              <input 
+                type="radio" 
+                [(ngModel)]="contaDestino.tipo" 
+                name="tipoConta" 
+                value="corrente"> Corrente
+            </label>
+            <label>
+              <input 
+                type="radio" 
+                [(ngModel)]="contaDestino.tipo" 
+                name="tipoConta" 
+                value="poupanca"> Poupança
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="titular">Nome do Titular:</label>
+          <input 
+            type="text" 
+            id="titular" 
+            [(ngModel)]="contaDestino.titular" 
+            name="titular"
+            placeholder="Nome completo do titular"
+            required>
+        </div>
+
+        <div class="form-group">
+          <label for="cpf">CPF do Titular:</label>
+          <input 
+            type="text" 
+            id="cpf" 
+            [(ngModel)]="contaDestino.cpf" 
+            name="cpf"
+            placeholder="000.000.000-00"
+            (input)="formatarCPF($event)"
+            required>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-primary" [disabled]="!validarTransferencia()">
+            Confirmar Transferência
+          </button>
+          <button type="button" class="btn-secondary" (click)="fecharModalTransferencia()">
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal do PIX -->
+  <div class="modal" *ngIf="showPixModal">
+    <div class="modal-content">
+      <h2>Gerar PIX</h2>
+      
+      <div class="pix-form" *ngIf="!qrCodeImage">
+        <div class="form-group">
+          <label for="valorPix">Valor do PIX:</label>
+          <input 
+            type="number" 
+            id="valorPix" 
+            [(ngModel)]="valorPix" 
+            [max]="limitePix"
+            placeholder="Digite o valor">
+        </div>
+        <button class="btn-primary" (click)="gerarPix()" [disabled]="!valorPix || valorPix <= 0 || valorPix > limitePix">
+          Gerar QR Code
+        </button>
+      </div>
+
+      <div class="qr-code-container" *ngIf="qrCodeImage">
+        <img [src]="qrCodeImage" alt="QR Code do PIX">
+        <button class="btn-secondary" (click)="copiarPix()">
+          Copiar código PIX
+        </button>
+      </div>
+
+      <button class="btn-close" (click)="fecharModalPix()">
+        Fechar
+      </button>
+    </div>
+  </div>
+</div>
